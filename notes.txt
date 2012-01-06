@@ -1,0 +1,49 @@
+ghost-shell
+
+ghost-shell is similar to git-shell. It is used to provide a restricted,
+non-interactive shell to the git user. With git-shell, only a few git commands
+are available to push to/pull from git repositories. It is intended to be run
+behind SSH, with every user having their SSH key in the
+/home/git/.ssh/authorized_keys file.
+
+To try it, one can create a ghost user:
+
+  # Ubuntu
+  > sudo adduser \
+    --system \
+    --shell /home/ghost/bin/ghost-shell \
+    --gecos 'Ghost - Git hosting suite' \
+    --group \
+    --disabled-password \
+    --home /home/ghost \
+    ghost
+
+  # Arch Linux
+  > sudo useradd \
+    --system \
+    --shell /home/ghost/bin/ghost-shell \
+    --create-home \
+    --user-group \
+    ghost
+
+and copy your public key to /home/ghost/.ssh/authorized_keys. Permissions
+should look like these (if the authorized_keys file can be written by someone
+else than ghost, the SSH daemon will refuse any connection):
+
+  > sudo ls -la /home/ghost/.ssh
+  total 16
+  drwxr-xr-x 2 ghost ghost 4096 Jan  6 23:11 .
+  drwx------ 4 ghost ghost 4096 Jan  6 23:05 ..
+  -rw-r--r-- 1 ghost ghost  398 Jan  6 23:11 authorized_keys
+
+Copy also ghost-shell to /home/ghost/bin/ghost-shell and make sure your SSH
+daemon configuration allow the ghost user to log. At this point you should be
+able to ssh into your machine with the ghost user:
+
+  > ssh ghost@localhost
+  Last login: Fri Jan  6 23:14:02 2012 from localhost.localdomain
+  Ghost shell.
+  Connection to localhost closed.
+
+(`Ghost shell.` is the standard output of ghost-shell, and is everything
+ghost-shell is able to do right now.)
