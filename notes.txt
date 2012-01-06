@@ -1,4 +1,5 @@
 ghost-shell
+-----------
 
 ghost-shell is similar to git-shell. It is used to provide a restricted,
 non-interactive shell to the git user. With git-shell, only a few git commands
@@ -6,7 +7,7 @@ are available to push to/pull from git repositories. It is intended to be run
 behind SSH, with every user having their SSH key in the
 /home/git/.ssh/authorized_keys file.
 
-To try it, one can create a ghost user:
+To try it, you can create a ghost user:
 
   # Ubuntu
   > sudo adduser \
@@ -47,3 +48,37 @@ able to ssh into your machine with the ghost user:
 
 (`Ghost shell.` is the standard output of ghost-shell, and is everything
 ghost-shell is able to do right now.)
+
+Git/git-shell interaction through SSH
+-------------------------------------
+
+When you add a remote, e.g.:
+
+  > git remote add ghost ghost@localhost:noteed/ghost.git
+
+a new remote entry is created in the .git/config file:
+
+  [remote "ghost"]
+          url = ghost@localhost:noteed/ghost.git
+          fetch = +refs/heads/*:refs/remotes/ghost/*
+
+and you can push to it (and our ghost-shell will break the protocol as it tries
+to answer with 'Ghost shell.'):
+
+  > git push ghost master
+  fatal: protocol error: bad line length character: Ghos
+
+In fact, it was invoke like so:
+
+  ghost-shell -c git-receive-pack 'noteed/ghost.git'
+
+Just to have an idea of what is expected, I manually run it against github:
+
+  > ssh git@github.com git-receive-pack 'noteed/ghost.git'
+  00724d3fa73030df07bcf97634a58b6d63382af11d16 refs/heads/master report-status delete-refs side-band-64k ofs-delta
+  0000
+  ^CKilled by signal 2.
+
+  > ssh git@github.com git-receive-pack 'noteed/ghos.git'
+  ERROR: noteed/ghos.git doesn't exist. Did you enter it correctly?
+

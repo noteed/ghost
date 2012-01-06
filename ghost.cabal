@@ -14,5 +14,6 @@ executable ghost-shell
   hs-source-dirs:         bin
   main-is:             ghost-shell.hs
   build-depends:       base == 4.*,
-                       cmdargs == 0.9.*
+                       cmdargs == 0.9.*,
+                       filepath == 1.2.*
   ghc-options:         -Wall
