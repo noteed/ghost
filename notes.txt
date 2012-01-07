@@ -49,6 +49,27 @@ able to ssh into your machine with the ghost user:
 (`Ghost shell.` is the standard output of ghost-shell, and is everything
 ghost-shell is able to do right now.)
 
+ghost-command
+-------------
+
+When you share the git user between different people and you want to enforce
+some access rights, you have to be able to know who is trying to run a git
+command. A simple way to do so is to use the command= entry that can be
+associated to a public key in ~/.ssh/authorized_keys and pass some username to
+the command, thus making excplicit the association between the username and the
+public key.
+
+For instance, with the following authorized_keys file, wheneve the user noteed
+tries to run a git command through ssh, ghost-command will be executed.
+
+  command="/home/ghost/bin/ghost-command --user noteed" ssh-rsa
+  <public-key> noteed@gmail.com
+
+Because ghost-command is invoked with --user noteed, it knows who is running
+the command. This is the approach taken by e.g. gitosis. Finally, the original
+command is made available to ghost-command by the ssh daemon through the
+environment variable SSH_ORIGINAL_COMMAND.
+
 Git/git-shell interaction through SSH
 -------------------------------------
 
