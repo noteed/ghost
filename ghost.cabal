@@ -23,5 +23,6 @@ executable ghost-command
   main-is:             ghost-command.hs
   build-depends:       base == 4.*,
                        cmdargs == 0.9.*,
-                       filepath == 1.2.*
+                       filepath == 1.2.*,
+                       unix == 2.4.2.*
   ghc-options:         -Wall

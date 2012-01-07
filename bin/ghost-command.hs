@@ -12,6 +12,7 @@ import System.Console.CmdArgs.Implicit
 import System.Environment (getEnvironment)
 import System.FilePath ((</>))
 import System.IO (hPutStrLn, withFile, IOMode(WriteMode))
+import System.Posix.Process (executeFile)
 
 versionString :: String
 versionString =
@@ -53,5 +54,13 @@ processCmd Shell{..} =
     withFile ("/home/ghost" </> "ghost-command.txt") WriteMode $ \h -> do
       hPutStrLn h $
         "originalCommand:\n" ++ show originalCommand
-    putStrLn "Yeah"
-    print originalCommand
+    case originalCommand of
+      Nothing -> putStrLn "SSH_ORIGINAL_COMMAND is not present."
+      Just "" -> putStrLn "SSH_ORIGINAL_COMMAND is empty."
+      Just commandArgs ->
+        case words commandArgs of
+          command : argument : [] -> do
+            _ <- executeFile command True [init $ tail argument] Nothing -- TODO init . tail can explode.
+            return ()
+          _ : _ -> return () -- TODO
+          _ -> return () -- Can't happen
