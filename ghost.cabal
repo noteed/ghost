@@ -26,3 +26,12 @@ executable ghost-command
                        filepath == 1.2.*,
                        unix == 2.4.2.*
   ghc-options:         -Wall
+
+executable ghost-control
+  hs-source-dirs:      bin
+  main-is:             ghost-control.hs
+  build-depends:       base == 4.*,
+                       cmdargs == 0.9.*,
+                       directory == 1.1.*,
+                       filepath == 1.2.*
+  ghc-options:         -Wall

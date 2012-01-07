@@ -1,3 +1,7 @@
+-- ghost-command can be specified in the git user authorized_keys for each
+-- public key. This implements some access control when a single user account
+-- (generaly git) is shared among several people (ghost-command is run with a
+-- username (for which access must be checked) passed in argument).
 {-# Language DeriveDataTypeable #-}
 {-# Language RecordWildCards #-}
 

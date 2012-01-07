@@ -1,3 +1,7 @@
+-- Restricted shell to run a few git commands. It is suitable to be the shell
+-- of the git user when it is used by multiple people through SSH. For access
+-- control, specify instead command='ghost-command ...' for each entry in
+-- authorized_keys and simply use /bin/sh as the shell.
 {-# Language DeriveDataTypeable #-}
 {-# Language RecordWildCards #-}
 
