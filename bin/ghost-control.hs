@@ -24,37 +24,23 @@ main = (processCmd =<<) $ cmdArgs $
   &= summary versionString
   &= program "ghost-control"
 
-data Cmd = Init
-    { initPublicKeyPath :: String
-    , initSuperuserName :: String
-    }
+data Cmd =
+    Init
   | AddUser
-    { addUserPublicKey :: String
+    { addUserPublicKeyPath :: String
     , addUserName :: String
     }
   deriving (Data, Typeable)
 
 cmdInit :: Cmd
 cmdInit = Init
-  { initPublicKeyPath = ""
-    &= typ "PUBLIC KEY PATH"
-    &= help "path to Ghost superuser's public key"
-    &= explicit
-    &= name "k"
-    &= name "key"
-  , initSuperuserName = ""
-    &= typ "USERNAME"
-    &= help "superuser name"
-    &= explicit
-    &= name "u"
-    &= name "user"
-  } &= help "Initialize Ghost with a superuser name and public key."
+  &= help "Initialize Ghost."
 
 cmdAddUser :: Cmd
 cmdAddUser = AddUser
-  { addUserPublicKey = ""
-    &= typ "PUBLIC KEY"
-    &= help "user's public key"
+  { addUserPublicKeyPath = ""
+    &= typ "PUBLIC KEY PATH"
+    &= help "path to user's public key"
     &= explicit
     &= name "k"
     &= name "key"
@@ -68,20 +54,19 @@ cmdAddUser = AddUser
 
 processCmd :: Cmd -> IO ()
 processCmd Init{..} = do
-  b <- doesFileExist initPublicKeyPath
-  if b
-    then do
-      content <- readFile initPublicKeyPath
-      putStrLn content
-      putStrLn initSuperuserName
-    else putStrLn $ initPublicKeyPath ++ " not found."
+  putStrLn "Ghost."
 
 processCmd AddUser{..} = do
-  putStrLn $ authorizedKeysEntry addUserName addUserPublicKey
+  b <- doesFileExist addUserPublicKeyPath
+  if b
+    then do
+      content <- readFile addUserPublicKeyPath
+      putStrLn $ authorizedKeysEntry addUserName content
+    else putStrLn $ addUserPublicKeyPath ++ " not found."
 
 authorizedKeysEntry:: String -> String -> String
 authorizedKeysEntry username key = concat
-  [ "command='/home/ghost/bin/ghost-command --user=", username, "'"
+  [ "command=\"/home/ghost/bin/ghost-command --user=", username, "\""
   , ",no-port-forwarding"
   , ",no-X11-forwarding"
   , ",no-agent-forwarding"
