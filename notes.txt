@@ -27,10 +27,13 @@ To try it, you can create a ghost user:
     --user-group \
     ghost
 
+  > sudo mkdir /home/ghost/{.ssh,bin}
+
 and copy your public key to /home/ghost/.ssh/authorized_keys. Permissions
 should look like these (if the authorized_keys file can be written by someone
 else than ghost, the SSH daemon will refuse any connection):
 
+  > sudo chown -R ghost:ghost /home/ghost/.ssh
   > sudo ls -la /home/ghost/.ssh
   total 16
   drwxr-xr-x 2 ghost ghost 4096 Jan  6 23:11 .
@@ -40,6 +43,9 @@ else than ghost, the SSH daemon will refuse any connection):
 Copy also ghost-shell to /home/ghost/bin/ghost-shell and make sure your SSH
 daemon configuration allow the ghost user to log. At this point you should be
 able to ssh into your machine with the ghost user:
+
+  > sudo cp `which ghost-shell` /home/ghost/bin/
+  > sudo chown -R ghost:ghost /home/ghost/bin
 
   > ssh ghost@localhost
   Last login: Fri Jan  6 23:14:02 2012 from localhost.localdomain

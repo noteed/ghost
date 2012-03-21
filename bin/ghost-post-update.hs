@@ -76,9 +76,9 @@ processCmd PostUpdate{..} = do
           _ <- runAndWaitProcess "sudo" (words "/etc/rc.d/nginx reload") Nothing
           return ()
 {-
-      CHECK GUGE.BE.GHOST FILE
-      GENERATE RUN/STAGING/NGINX/GUGE.BE.CONF
-      RELOAD NGINX CONFIGURATION -}
+      check .ghost file.
+      generate run/production/nginx/domain.conf
+-}
       putStrLn $ "Done."
 
     "refs/heads/staging" -> do
