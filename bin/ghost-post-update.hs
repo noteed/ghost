@@ -91,6 +91,7 @@ processCmd PostUpdate{..} = do
       putStrLn "  refs/heads/master"
       putStrLn "  refs/heads/staging"
 
+-- TODO share between programs.
 runAndWaitProcess cmd args env = do
   p <- runProcess cmd args Nothing env Nothing Nothing Nothing
   waitForProcess p

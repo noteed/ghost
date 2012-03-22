@@ -1,6 +1,6 @@
 #! /bin/sh
 # Run this script from user with Ghost administrator role.
-# It add the user with its key to Ghost.
+# It adds the user with its key to Ghost.
 
 username=$1
 public_key=$2

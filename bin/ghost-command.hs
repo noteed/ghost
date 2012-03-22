@@ -13,6 +13,7 @@ import Control.Applicative ((<$>))
 import Data.Version (showVersion)
 
 import System.Console.CmdArgs.Implicit
+import System.Directory (getHomeDirectory)
 import System.Environment (getEnvironment)
 import System.FilePath ((</>))
 import System.IO (hPutStrLn, withFile, IOMode(WriteMode))
@@ -54,6 +55,7 @@ processCmd Shell{..} =
     , "command associated to a public key in the ~/.ssh/authrized_keys file."
     ]
   else do
+    home <- getHomeDirectory
     originalCommand <- lookup "SSH_ORIGINAL_COMMAND" <$> getEnvironment
     withFile ("/home/ghost" </> "ghost-command.txt") WriteMode $ \h -> do
       hPutStrLn h $
@@ -63,8 +65,10 @@ processCmd Shell{..} =
       Just "" -> putStrLn "SSH_ORIGINAL_COMMAND is empty."
       Just commandArgs ->
         case words commandArgs of
+          -- TODO check command and args
           command : argument : [] -> do
-            _ <- executeFile command True [init $ tail argument] Nothing -- TODO init . tail can explode.
+            let repoPath = home </> "user" </> (init $ tail argument) -- TODO init . tail can explode.
+            _ <- executeFile command True [repoPath] Nothing
             return ()
           _ : _ -> return () -- TODO
           _ -> return () -- Can't happen
