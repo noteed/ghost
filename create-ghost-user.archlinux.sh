@@ -21,6 +21,7 @@ sudo useradd \
   ghost
 
 sudo mkdir -p /home/ghost/{.ssh,bin,administrator}
+sudo cp `which ghost-command` /home/ghost/bin/
 sudo cp `which ghost-control` /home/ghost/bin/
 sudo cp $public_key /home/ghost/.ssh/authorized_keys
 sudo chown -R ghost:ghost /home/ghost/
