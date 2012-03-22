@@ -17,9 +17,10 @@ import Data.Version (showVersion)
 import System.Console.CmdArgs.Implicit
 import System.Directory
   ( createDirectoryIfMissing, doesFileExist
-  , getCurrentDirectory)
+  , getCurrentDirectory, getHomeDirectory
+  )
 import System.Environment (getEnvironment)
-import System.FilePath ((</>), (<.>), splitDirectories, splitPath)
+import System.FilePath ((</>), (<.>), dropExtension, splitDirectories, splitPath)
 import System.IO (hPutStrLn, withFile, IOMode(WriteMode), hFlush, stdout, stderr)
 import System.Posix.Process (executeFile)
 import System.Process (runProcess, waitForProcess)
@@ -27,10 +28,6 @@ import System.Process (runProcess, waitForProcess)
 versionString :: String
 versionString =
   "ghost-post-update " ++ showVersion version ++ " Copyright (c) 2012 Vo Minh Thu."
-
--- | The Ghost user home.
-homeDir :: FilePath
-homeDir = "/home/thu/ghost" -- TODO "/home/ghost"
 
 main :: IO ()
 main = (processCmd =<<) $ cmdArgs $
@@ -52,10 +49,12 @@ shell = PostUpdate
 
 processCmd :: Cmd -> IO ()
 processCmd PostUpdate{..} = do
+  home <- getHomeDirectory
   currentDir <- getCurrentDirectory
-  let domain = last $ splitDirectories currentDir
-      productionDirectory = homeDir </> "run/production" </> domain
-      stagingDirectory = homeDir </> "run/staging" </> domain
+  -- dropExtension to remove the .git from the bare repo name.
+  let domain = dropExtension . last $ splitDirectories currentDir
+      productionDirectory = home </> "run/production" </> domain
+      stagingDirectory = home </> "run/staging" </> domain
   putStrLn $ "Ghost receiving push (updating " ++ postUpdateRef ++ ")."
   putStrLn $ "Domain: " ++ domain
   hFlush stdout

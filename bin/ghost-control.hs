@@ -111,6 +111,9 @@ processCmd Init{..} = do
   putStrLn "Add the following line to your main Nginx configuration"
   putStrLn "file (inside an `http {..}` block.):"
   putStrLn $ "  include " ++ home ++ "/run/nginx.conf;"
+  putStrLn "Add the following line to your sudoers file:"
+  putStrLn "  ghost   ALL=(ALL) NOPASSWD: /etc/rc.d/nginx"
+  putStrLn "(so the post-update hook can instruct Nginx to reload its configuration)."
 
 processCmd AddUser{..} = do
   putStrLn "Ghost: adding a new user."
@@ -131,12 +134,14 @@ processCmd AddRepository{..} = do
   putStrLn "Ghost: adding a new repository."
   hFlush stdout
   home <- getHomeDirectory
+  let repoDir = home </> "user" </> addRepoUserName </> addRepoName <.> "git"
   -- TODO check username
   -- TODO check repository name
   _ <- runAndWaitProcess "git"
-    ["init", "--bare",
-      home </> "user" </> addRepoUserName </> addRepoName <.> "git"]
+    ["init", "--bare", repoDir]
     Nothing
+  copyFile ("bin" </> "ghost-post-update")
+    (repoDir </> "hooks" </> "post-update")
   return ()
 
 -- | Given a username and its public SSH key, return a string
