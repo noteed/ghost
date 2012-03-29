@@ -1,5 +1,5 @@
 name:                ghost
-version:             0.0.0
+version:             0.1.0
 Cabal-Version:       >= 1.2
 synopsis:            Git hosting tools.
 description:         Ghost is a suite of Git hosting tools written in Haskell.
@@ -15,7 +15,7 @@ executable ghost-shell
   main-is:             ghost-shell.hs
   build-depends:       base == 4.*,
                        cmdargs == 0.9.*,
-                       filepath == 1.2.*
+                       filepath == 1.3.*
   ghc-options:         -Wall
 
 executable ghost-command
@@ -23,8 +23,8 @@ executable ghost-command
   main-is:             ghost-command.hs
   build-depends:       base == 4.*,
                        cmdargs == 0.9.*,
-                       filepath == 1.2.*,
-                       unix == 2.4.2.*
+                       filepath == 1.3.*,
+                       unix == 2.5.*
   ghc-options:         -Wall
 
 executable ghost-control
@@ -33,7 +33,7 @@ executable ghost-control
   build-depends:       base == 4.*,
                        cmdargs == 0.9.*,
                        directory == 1.1.*,
-                       filepath == 1.2.*
+                       filepath == 1.3.*
   ghc-options:         -Wall
 
 executable ghost-post-update
@@ -42,6 +42,6 @@ executable ghost-post-update
   build-depends:       base == 4.*,
                        cmdargs == 0.9.*,
                        directory == 1.1.*,
-                       filepath == 1.2.*,
-                       process == 1.0.*
+                       filepath == 1.3.*,
+                       process == 1.1.*
   ghc-options:         -Wall
