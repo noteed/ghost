@@ -1,4 +1,5 @@
 -- ghost-control is the server-side tool to add new repositories and users.
+{-# Language CPP #-}
 {-# Language DeriveDataTypeable #-}
 {-# Language RecordWildCards #-}
 
@@ -19,7 +20,10 @@ import System.Process (runProcess, waitForProcess)
 
 versionString :: String
 versionString =
-  "ghost " ++ showVersion version ++ " Copyright (c) 2012 Vo Minh Thu."
+  "Ghost " ++ showVersion version ++ " Copyright (c) 2012 Vo Minh Thu."
+#ifdef USE_LINODE
+  ++ "\n(Ghost is built with Linode API support.)"
+#endif
 
 main :: IO ()
 main = (processCmd =<<) $ cmdArgs $
@@ -164,7 +168,7 @@ authorizedKeysEntry username key = concat
 administratorAuthorizedKeysEntry:: String -> String -> String
 administratorAuthorizedKeysEntry _ key = key
 
--- | Read keys from ~/administrator/keys and ~/user/*/keys and generate
+-- | Read keys from ~/administrator/keys and ~/user/.../keys and generate
 -- the ~/.ssh/authorized_keys file, pairing SSH keys and usernames.
 refreshAuthorizedKeys :: IO ()
 refreshAuthorizedKeys = do

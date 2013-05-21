@@ -57,7 +57,8 @@ processCmd Shell{..} =
   else do
     home <- getHomeDirectory
     originalCommand <- lookup "SSH_ORIGINAL_COMMAND" <$> getEnvironment
-    withFile ("/home/ghost" </> "ghost-command.txt") WriteMode $ \h -> do
+    -- TODO this is for debugging only.
+    withFile (home </> "ghost-command.txt") WriteMode $ \h -> do
       hPutStrLn h $
         "originalCommand:\n" ++ show originalCommand
     case originalCommand of

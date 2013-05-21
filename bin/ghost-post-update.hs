@@ -3,6 +3,7 @@
 -- repository content to some staging or production directory (based on the
 -- name of the pushed branch). Based on a .ghost file, it will run a few other
 -- actions, like running a virtual server with nginx.
+{-# Language CPP #-}
 {-# Language DeriveDataTypeable #-}
 {-# Language RecordWildCards #-}
 
@@ -28,6 +29,9 @@ import System.Process (runProcess, waitForProcess)
 versionString :: String
 versionString =
   "ghost-post-update " ++ showVersion version ++ " Copyright (c) 2012 Vo Minh Thu."
+#ifdef USE_LINODE
+  ++ "\n(Ghost is built with Linode API support.)"
+#endif
 
 main :: IO ()
 main = (processCmd =<<) $ cmdArgs $
@@ -57,6 +61,9 @@ processCmd PostUpdate{..} = do
       stagingDirectory = home </> "run/staging" </> domain
   putStrLn $ "Ghost receiving push (updating " ++ postUpdateRef ++ ")."
   putStrLn $ "Domain: " ++ domain
+#ifdef USE_LINODE
+  putStrLn "Creating domain on Linode." -- TODO
+#endif
   hFlush stdout
   case postUpdateRef of
     "refs/heads/master" -> do

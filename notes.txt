@@ -95,7 +95,7 @@ to answer with 'Ghost shell.'):
   > git push ghost master
   fatal: protocol error: bad line length character: Ghos
 
-In fact, it was invoke like so:
+In fact, it was invoked like so:
 
   ghost-shell -c git-receive-pack 'noteed/ghost.git'
 

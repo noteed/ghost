@@ -10,6 +10,11 @@ author:              Vo Minh Thu
 maintainer:          noteed@gmail.com
 build-type:          Simple
 
+-- When enabled, ghost can use a Linode API key to create domains for users
+-- and projects.
+flag linode
+  default: False
+
 executable ghost-shell
   hs-source-dirs:      bin
   main-is:             ghost-shell.hs
@@ -35,6 +40,8 @@ executable ghost-control
                        directory == 1.1.*,
                        filepath == 1.2.*
   ghc-options:         -Wall
+  if flag(linode)
+    cpp-options: -DUSE_LINODE
 
 executable ghost-post-update
   hs-source-dirs:      bin
@@ -45,3 +52,6 @@ executable ghost-post-update
                        filepath == 1.2.*,
                        process == 1.0.*
   ghc-options:         -Wall
+  if flag(linode)
+    build-depends: hlinode == 0.0.0
+    cpp-options: -DUSE_LINODE
