@@ -1,0 +1,19 @@
+Say I own ghost.xxx, when people register a username, they get
+username.ghost.xxx. Then when they register a project, they get
+project.username.ghost.xxx.
+
+But I want to keep a few yyy.ghost.xxx subdomain for special ghost services.
+For instance, api.ghost.xxx or doc.ghost.xxx. So here is a list of such names
+that I could want to use later. So those names can not be register as username.
+
+Otherwise I should make available all of yyy.ghosted.xxx (or yyy.ghostapps.xxx,
+...).
+
+api
+developer
+developers
+doc
+git
+noteed
+static
+www

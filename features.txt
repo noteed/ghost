@@ -1,0 +1,26 @@
+
++ is done
+- is planned
+
++ register a new user:
+  As the ghost user, ghost-control add-user <username> <public-key>
+  - This also creates a username.ghost.xxx subdomain.
+
++ register a new repository for a user:
+  + As the ghost user, ghost-control add-project <username> <repository>
+    - This also creates a repository.username.ghost.xxx subdomain.
+
+  - As a client, ghost new <repository> --haskell --github
+    - Localy, create a git repository
+    - Create a few standard Haskell things (.cabal file, bin/ directory, ...)
+    - Create a repository on GitHub
+    - And the effects of `add-project` above.
+
++ post-update hook to
+  - deploy the repo as a static web site through nginx
+
+- register a new user without any key at first.
+
+- register a public SSH key for a user:
+  ghost-control add-key <username> <public-key>
+
