@@ -11,7 +11,6 @@ module Main where
 
 import Paths_ghost (version)
 
-import Control.Applicative ((<$>))
 import Data.Maybe (mapMaybe)
 import Data.Version (showVersion)
 
@@ -20,10 +19,9 @@ import System.Directory
   ( createDirectoryIfMissing, doesFileExist
   , getCurrentDirectory, getHomeDirectory
   )
-import System.Environment (getEnvironment)
+import System.Exit (ExitCode)
 import System.FilePath ((</>), (<.>), dropExtension, splitDirectories, splitPath)
-import System.IO (hPutStrLn, withFile, IOMode(WriteMode), hFlush, stdout, stderr)
-import System.Posix.Process (executeFile)
+import System.IO (hFlush, stdout)
 import System.Process (runProcess, waitForProcess)
 
 versionString :: String
@@ -98,8 +96,10 @@ processCmd PostUpdate{..} = do
       putStrLn "  refs/heads/staging"
 
 -- TODO share between programs.
-runAndWaitProcess cmd args env = do
-  p <- runProcess cmd args Nothing env Nothing Nothing Nothing
+runAndWaitProcess :: FilePath -> [String] -> Maybe [(String, String)]
+  -> IO ExitCode
+runAndWaitProcess cmd arguments env = do
+  p <- runProcess cmd arguments Nothing env Nothing Nothing Nothing
   waitForProcess p
 
 data GhostFile = GhostFile

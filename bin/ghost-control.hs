@@ -14,6 +14,7 @@ import System.Directory
   ( copyFile, createDirectoryIfMissing, doesFileExist, getDirectoryContents
   , getHomeDirectory
   )
+import System.Exit (ExitCode)
 import System.FilePath ((</>), (<.>))
 import System.IO (hFlush, hPutStrLn, withFile, IOMode(WriteMode), stdout)
 import System.Process (runProcess, waitForProcess)
@@ -201,6 +202,8 @@ isUserDirectory x | '.' `elem` x = return False
 isUserDirectory _ = return True -- TODO
 
 -- TODO share between programs.
-runAndWaitProcess cmd args env = do
-  p <- runProcess cmd args Nothing env Nothing Nothing Nothing
+runAndWaitProcess :: FilePath -> [String] -> Maybe [(String, String)]
+  -> IO ExitCode
+runAndWaitProcess cmd arguments env = do
+  p <- runProcess cmd arguments Nothing env Nothing Nothing Nothing
   waitForProcess p
