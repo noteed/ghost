@@ -1,6 +1,6 @@
 name:                ghost
 version:             0.0.0
-Cabal-Version:       >= 1.2
+Cabal-Version:       >= 1.8
 synopsis:            Git hosting tools.
 description:         Ghost is a suite of Git hosting tools written in Haskell.
 category:            Data
@@ -15,6 +15,12 @@ build-type:          Simple
 flag linode
   default: False
 
+library
+  build-depends:       base == 4.*,
+                       process == 1.1.*
+  exposed-modules:     Ghost
+  ghc-options:         -Wall
+
 executable ghost-shell
   hs-source-dirs:      bin
   main-is:             ghost-shell.hs
@@ -28,6 +34,7 @@ executable ghost-command
   main-is:             ghost-command.hs
   build-depends:       base == 4.*,
                        cmdargs == 0.9.*,
+                       directory == 1.1.*,
                        filepath >= 1.2 && < 1.4,
                        unix >= 2.4 && < 2.6
   ghc-options:         -Wall
@@ -38,7 +45,8 @@ executable ghost-control
   build-depends:       base == 4.*,
                        cmdargs == 0.9.*,
                        directory == 1.1.*,
-                       filepath >= 1.2 && < 1.4
+                       filepath >= 1.2 && < 1.4,
+                       ghost
   ghc-options:         -Wall
   if flag(linode)
     cpp-options: -DUSE_LINODE
@@ -50,7 +58,7 @@ executable ghost-post-update
                        cmdargs == 0.9.*,
                        directory == 1.1.*,
                        filepath >= 1.2 && < 1.4,
-                       process == 1.1.*
+                       ghost
   ghc-options:         -Wall
   if flag(linode)
     build-depends: hlinode == 0.0.0

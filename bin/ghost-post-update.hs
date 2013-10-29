@@ -19,10 +19,10 @@ import System.Directory
   ( createDirectoryIfMissing, doesFileExist
   , getCurrentDirectory, getHomeDirectory
   )
-import System.Exit (ExitCode)
 import System.FilePath ((</>), (<.>), dropExtension, splitDirectories, splitPath)
 import System.IO (hFlush, stdout)
-import System.Process (runProcess, waitForProcess)
+
+import Ghost (runAndWaitProcess)
 
 versionString :: String
 versionString =
@@ -94,13 +94,6 @@ processCmd PostUpdate{..} = do
       putStrLn $ "ERROR: received `" ++ x ++ "` instead of one of"
       putStrLn "  refs/heads/master"
       putStrLn "  refs/heads/staging"
-
--- TODO share between programs.
-runAndWaitProcess :: FilePath -> [String] -> Maybe [(String, String)]
-  -> IO ExitCode
-runAndWaitProcess cmd arguments env = do
-  p <- runProcess cmd arguments Nothing env Nothing Nothing Nothing
-  waitForProcess p
 
 data GhostFile = GhostFile
   { ghostFileStaticRoot :: String
