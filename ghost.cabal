@@ -17,6 +17,8 @@ flag linode
 
 library
   build-depends:       base == 4.*,
+                       directory == 1.1.*,
+                       filepath >= 1.2 && < 1.4,
                        process == 1.1.*
   exposed-modules:     Ghost
   ghc-options:         -Wall
