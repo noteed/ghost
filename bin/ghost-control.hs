@@ -91,7 +91,7 @@ processCmd Init{..} = do
       administratorKeys = home </> "administrator" </> "keys"
 
   _ <- createDirectoryIfMissing True $ home </> "administrator"
-  _ <- createDirectoryIfMissing True $ home </> "user"
+  _ <- createDirectoryIfMissing True $ home </> "users"
   _ <- createDirectoryIfMissing True $ home </> "gits"
   _ <- createDirectoryIfMissing True $ home </> "run/staging/nginx"
   _ <- createDirectoryIfMissing True $ home </> "run/production/nginx"
@@ -124,8 +124,8 @@ processCmd AddUser{..} = do
   -- TODO validate username (forbid "administrator", just in case)
   -- TODO validate key
   -- TODO actually handle more than one key
-  let userKeys = home </> "user" </> addUserName </> "keys"
-  _ <- createDirectoryIfMissing True $ home </> "user" </> addUserName
+  let userKeys = home </> "users" </> addUserName </> "keys"
+  _ <- createDirectoryIfMissing True $ home </> "users" </> addUserName
   b <- doesFileExist addUserPublicKeyPath
   if b
     then do
@@ -137,7 +137,7 @@ processCmd AddRepository{..} = do
   putStrLn "Ghost: adding a new repository."
   hFlush stdout
   home <- getHomeDirectory
-  let repoDir = home </> "user" </> addRepoUserName </> addRepoName <.> "git"
+  let repoDir = home </> "users" </> addRepoUserName </> addRepoName <.> "git"
   -- TODO check username
   -- TODO check repository name
   _ <- runAndWaitProcess "git"

@@ -41,7 +41,7 @@ refreshAuthorizedKeys cmd = do
   home <- getHomeDirectory
   let authorizedKeys = home </> ".ssh" </> "authorized_keys"
       administratorKeys = home </> "administrator" </> "keys"
-      usersDir = home </> "user"
+      usersDir = home </> "users"
 
   withFile authorizedKeys WriteMode $ \h -> do
     b <- doesFileExist administratorKeys
@@ -61,7 +61,7 @@ refreshAuthorizedKeys cmd = do
 
     putStrLn $ "Added " ++ show (length dirs) ++ " user keys."
 
--- | Predicate to test if a filename under ~/user is really a user directory.
+-- | Predicate to test if a filename under ~/users is really a user directory.
 isUserDirectory :: FilePath -> IO Bool
 isUserDirectory x | '.' `elem` x = return False
 isUserDirectory _ = return True -- TODO

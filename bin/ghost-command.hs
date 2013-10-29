@@ -68,7 +68,7 @@ processCmd Shell{..} =
         case words commandArgs of
           -- TODO check command and args
           command : argument : [] -> do
-            let repoPath = home </> "user" </> (init $ tail argument) -- TODO init . tail can explode.
+            let repoPath = home </> "users" </> (init $ tail argument) -- TODO init . tail can explode.
             _ <- executeFile command True [repoPath] Nothing
             return ()
           _ : _ -> return () -- TODO
