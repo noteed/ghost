@@ -1,5 +1,5 @@
 name:                ghost
-version:             0.0.0
+version:             0.1.0
 Cabal-Version:       >= 1.8
 synopsis:            Git hosting tools.
 description:         Ghost is a suite of Git hosting tools written in Haskell.
@@ -17,9 +17,9 @@ flag linode
 
 library
   build-depends:       base == 4.*,
-                       directory == 1.1.*,
-                       filepath >= 1.2 && < 1.4,
-                       process == 1.1.*
+                       directory,
+                       filepath,
+                       process
   exposed-modules:     Ghost
   ghc-options:         -Wall
 
@@ -27,27 +27,27 @@ executable ghost-shell
   hs-source-dirs:      bin
   main-is:             ghost-shell.hs
   build-depends:       base == 4.*,
-                       cmdargs == 0.9.*,
-                       filepath >= 1.2 && < 1.4
+                       cmdargs,
+                       filepath
   ghc-options:         -Wall
 
 executable ghost-command
   hs-source-dirs:      bin
   main-is:             ghost-command.hs
   build-depends:       base == 4.*,
-                       cmdargs == 0.9.*,
-                       directory == 1.1.*,
-                       filepath >= 1.2 && < 1.4,
-                       unix >= 2.4 && < 2.6
+                       cmdargs,
+                       directory,
+                       filepath,
+                       unix
   ghc-options:         -Wall
 
 executable ghost-control
   hs-source-dirs:      bin
   main-is:             ghost-control.hs
   build-depends:       base == 4.*,
-                       cmdargs == 0.9.*,
-                       directory == 1.1.*,
-                       filepath >= 1.2 && < 1.4,
+                       cmdargs,
+                       directory,
+                       filepath,
                        ghost
   ghc-options:         -Wall
   if flag(linode)
@@ -57,9 +57,9 @@ executable ghost-post-update
   hs-source-dirs:      bin
   main-is:             ghost-post-update.hs
   build-depends:       base == 4.*,
-                       cmdargs == 0.9.*,
-                       directory == 1.1.*,
-                       filepath >= 1.2 && < 1.4,
+                       cmdargs,
+                       directory,
+                       filepath,
                        ghost
   ghc-options:         -Wall
   if flag(linode)
