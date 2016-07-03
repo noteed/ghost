@@ -2,6 +2,7 @@
 -- of the git user when it is used by multiple people through SSH. For access
 -- control, specify instead command='ghost-command ...' for each entry in
 -- authorized_keys and simply use /bin/sh as the shell.
+{-# OPTIONS_GHC -fno-cse #-}
 {-# Language DeriveDataTypeable #-}
 {-# Language RecordWildCards #-}
 

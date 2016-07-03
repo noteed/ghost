@@ -1,4 +1,5 @@
 -- ghost-control is the server-side tool to add new repositories and users.
+{-# OPTIONS_GHC -fno-cse #-}
 {-# Language CPP #-}
 {-# Language DeriveDataTypeable #-}
 {-# Language RecordWildCards #-}

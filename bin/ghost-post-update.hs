@@ -3,6 +3,7 @@
 -- repository content to some staging or production directory (based on the
 -- name of the pushed branch). Based on a .ghost file, it will run a few other
 -- actions, like running a virtual server with nginx.
+{-# OPTIONS_GHC -fno-cse #-}
 {-# Language CPP #-}
 {-# Language DeriveDataTypeable #-}
 {-# Language RecordWildCards #-}
