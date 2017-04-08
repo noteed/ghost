@@ -85,7 +85,7 @@ cmdAddRepository = AddRepository
     &= name "add-repository"
 
 processCmd :: Cmd -> IO ()
-processCmd Init{..} = do
+processCmd Init = do
   putStrLn "Ghost: server-side initialization."
   home <- getHomeDirectory
   let authorizedKeys = home </> ".ssh" </> "authorized_keys"
